@@ -1,0 +1,14 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: leadnews-wemedia
+  cloud:
+    nacos:
+      discovery: #服务配置
+        server-addr: 106.12.113.105:8848
+      config: # 配置管理
+        server-addr: 106.12.113.105:8848
+        file-extension: yml
+

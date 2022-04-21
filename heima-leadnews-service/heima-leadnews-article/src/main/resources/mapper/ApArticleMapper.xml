@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heima.article.mapper.ApArticleMapper">
+  <resultMap id="BaseResultMap" type="com.heima.model.article.pojos.ApArticle">
+    <!--@mbg.generated-->
+    <!--@Table ap_article-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
+    <result column="author_name" jdbcType="VARCHAR" property="authorName" />
+    <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="layout" jdbcType="TINYINT" property="layout" />
+    <result column="flag" jdbcType="TINYINT" property="flag" />
+    <result column="images" jdbcType="VARCHAR" property="images" />
+    <result column="labels" jdbcType="VARCHAR" property="labels" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+    <result column="collection" jdbcType="INTEGER" property="collection" />
+    <result column="comment" jdbcType="INTEGER" property="comment" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="county_id" jdbcType="INTEGER" property="countyId" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="sync_status" jdbcType="BOOLEAN" property="syncStatus" />
+    <result column="origin" jdbcType="TINYINT" property="origin" />
+    <result column="static_url" jdbcType="VARCHAR" property="staticUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ap_article.id, ap_article.title, ap_article.author_id, ap_article.author_name, ap_article.channel_id, ap_article.channel_name, ap_article.layout, ap_article.flag, ap_article.images,
+    ap_article.labels, ap_article.likes, ap_article.`collection`, ap_article.`comment`, ap_article.views, ap_article.province_id, ap_article.city_id, ap_article.county_id, ap_article.created_time,
+    ap_article.publish_time, ap_article.sync_status, ap_article.origin, ap_article.static_url,ap_article.updated_time
+  </sql>
+
+  <select id="loadArticles" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from ap_article
+        inner join ap_article_config
+    on ap_article.`id` = ap_article_config.`article_id`
+    <if test="dto.tag != null and dto.tag != '__all__'">
+      where ap_article.channel_id = #{dto.tag}
+    </if>
+    <if test="type == 1">
+      and ap_article.publish_time  &lt; #{dto.minBehotTime}
+    </if>
+    <if test="type == 2">
+      and ap_article.publish_time &gt; #{dto.maxBehotTime}
+    </if>
+    AND ap_article_config.`is_delete` = 0
+    AND ap_article_config.`is_down` = 0
+    ORDER BY ap_article.`publish_time` DESC
+    limit #{dto.size}
+  </select>
+</mapper>

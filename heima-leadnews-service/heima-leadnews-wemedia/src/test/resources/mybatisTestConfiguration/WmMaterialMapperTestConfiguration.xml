@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Mybatis config sample -->
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+
+    <environments default = "default">
+        <environment id="default">
+            <transactionManager type="JDBC"/>
+            <dataSource type="UNPOOLED">
+                <property name = "driver" value = "com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://rm-wz9it283be4fei526so.mysql.rds.aliyuncs.com:3306/leadnews_wemedia"/>
+                <property name="username" value=""/>
+                <property name="password" value=""/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+
+    <mappers>
+        <mapper resource="mapper/WmMaterialMapper.xml"/>
+    </mappers>
+</configuration>
